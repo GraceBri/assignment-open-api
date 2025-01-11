@@ -13,10 +13,14 @@ export class InstagramController {
   @Get('search-users')
   async searchUsers(@Query('query') query: string) {
     if (!query) {
-      throw new BadRequestException('Query parameter is required');
+      throw new BadRequestException(
+        `Oh no! 😿 It seems like you forgot to include a query. Please try again!`
+      );
     }
-    return await this.instagramService.searchUsers(query);
+    const results = await this.instagramService.searchUsers(query);
+    return {
+      ...results,
+      note: 'Thanks for using our Instagram search! 💖',
+    };
   }
-
 }
-

@@ -23,11 +23,14 @@ export class InstagramService {
       });
       return {
         status: 'success',
+        message: `Yay! 🎉 We found some results for "${searchQuery}"!`,
         data: response.data,
       };
     } catch (error) {
       throw new HttpException(
-        `Error fetching users: ${error.response?.data?.message || error.message}`,
+        `Oopsie! 💔 Something went wrong while searching for "${searchQuery}". ${
+          error.response?.data?.message || error.message
+        }`,
         error.response?.status || 500,
       );
     }
