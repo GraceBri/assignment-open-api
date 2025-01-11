@@ -35,4 +35,33 @@ export class InstagramService {
       );
     }
   }
+
+  /**
+   * Fetch the list of accounts a user is following based on username, ID, or URL.
+   * @param identifier The username, user ID, or profile URL of the user.
+   * @returns The following list from the API.
+   */
+  async getUserFollowing(identifier: string): Promise<any> {
+    try {
+      const response = await axios.get(`${this.baseUrl}/v1/following`, {
+        headers: {
+          'X-Rapidapi-Key': this.rapidApiKey,
+          'X-Rapidapi-Host': this.rapidApiHost,
+        },
+        params: { username_or_id_or_url: identifier },
+      });
+      return {
+        status: 'success',
+        message: `Woohoo! 🎉 Here's who "${identifier}" is following!`,
+        data: response.data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        `Oh no! 💔 We couldn't fetch the following list for "${identifier}". ${
+          error.response?.data?.message || error.message
+        }`,
+        error.response?.status || 500,
+      );
+    }
+  }
 }

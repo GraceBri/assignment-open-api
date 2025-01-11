@@ -23,4 +23,23 @@ export class InstagramController {
       note: 'Thanks for using our Instagram search! 💖',
     };
   }
+
+  /**
+   * Endpoint to fetch the following list for a user.
+   * @param identifier The username, user ID, or profile URL of the user.
+   * @returns The following list.
+   */
+  @Get('following')
+  async getUserFollowing(@Query('identifier') identifier: string) {
+    if (!identifier) {
+      throw new BadRequestException(
+        `Oops! 🙀 Please provide a username, ID, or profile URL to get the following list.`
+      );
+    }
+    const results = await this.instagramService.getUserFollowing(identifier);
+    return {
+      ...results,
+      note: 'Hope you enjoy exploring! 💕',
+    };
+  }
 }
